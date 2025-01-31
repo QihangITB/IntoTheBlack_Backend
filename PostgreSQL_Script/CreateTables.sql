@@ -2,13 +2,13 @@
 CREATE TABLE fragment (
     fragment_id SERIAL PRIMARY KEY,
     order_number INT NOT NULL,
-    mensaje TEXT NOT NULL
+    message TEXT NOT NULL
 );
 
 -- Crear la tabla de colecciones
 CREATE TABLE collection (
     collection_id SERIAL PRIMARY KEY,
-    fragment_list INT[] -- Lista de fragmentos como array de fragment_ids
+    fragment_list INT[]
 );
 
 -- Crear la tabla de usuarios
