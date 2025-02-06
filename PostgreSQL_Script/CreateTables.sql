@@ -18,6 +18,6 @@ CREATE TABLE player (
     email VARCHAR(255) NOT NULL UNIQUE,
     password TEXT NOT NULL,
     record_time TEXT,
-    collection_id INT,
+    collection_id INT NOT NULL,
     FOREIGN KEY (collection_id) REFERENCES collection(collection_id)
 );
