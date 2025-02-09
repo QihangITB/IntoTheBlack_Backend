@@ -1,18 +1,15 @@
 package com.intotheblack.itb_api.model;
 
-import java.util.Collection;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class Player {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "player_id")
     private Long playerId;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -24,7 +21,7 @@ public class Player {
     @Column(name = "record_time")
     private String recordTime;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "collection_id", nullable = false, referencedColumnName = "collection_id")
     private Collection collection;
 

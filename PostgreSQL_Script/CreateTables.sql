@@ -14,7 +14,7 @@ CREATE TABLE collection (
 -- Crear la tabla de usuarios
 CREATE TABLE player (
     player_id SERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
     password TEXT NOT NULL,
     record_time TEXT,

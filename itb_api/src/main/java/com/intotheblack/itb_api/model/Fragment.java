@@ -1,6 +1,6 @@
 package com.intotheblack.itb_api.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 public class Fragment {
@@ -12,7 +12,7 @@ public class Fragment {
     @Column(name = "order_number", nullable = false)
     private Integer orderNumber;
 
-    @Column(name = "message", nullable = false)
+    @Column(name = "message", nullable = false, columnDefinition = "TEXT")
     private String message;
 
     // Getters y Setters
