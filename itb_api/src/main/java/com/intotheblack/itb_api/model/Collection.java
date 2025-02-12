@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.*;
 
 @Entity
+@Table(name="collection")
 public class Collection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +13,9 @@ public class Collection {
 
     @Column(name = "fragment_list", nullable = false)
     private List<Integer> fragments;
+
+    // Constructores
+    public Collection() {}
 
     // Getters y Setters
     public Long getCollectionId() {

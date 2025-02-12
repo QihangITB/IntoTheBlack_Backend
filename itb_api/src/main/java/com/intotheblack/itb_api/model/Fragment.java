@@ -3,6 +3,7 @@ package com.intotheblack.itb_api.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name="fragment")
 public class Fragment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +15,9 @@ public class Fragment {
 
     @Column(name = "message", nullable = false, columnDefinition = "TEXT")
     private String message;
+
+    // Constructores
+    public Fragment() {}
 
     // Getters y Setters
     public Long getFragmentId() {

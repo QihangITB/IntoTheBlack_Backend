@@ -2,6 +2,7 @@
 
 ## Ejecutar aplicación
 mvn spring-boot:run
+http://localhost:8080/swagger-ui/index.html
 
 ## Validador de codigo: Extension VS Code (SonarQube)
 1. Abre **Visual Studio Code**.

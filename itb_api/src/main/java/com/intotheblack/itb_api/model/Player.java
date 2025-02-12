@@ -3,6 +3,7 @@ package com.intotheblack.itb_api.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name="player")
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +25,9 @@ public class Player {
     @OneToOne
     @JoinColumn(name = "collection_id", nullable = false, referencedColumnName = "collection_id")
     private Collection collection;
+
+    // Constructores
+    public Player() {}
 
     // Getters y Setters
     public Long getPlayerId() {
