@@ -20,7 +20,20 @@ public class FragmentService {
             .orElseThrow(() -> new RuntimeException("Fragmento no encontrado con id: " + id));
     }
 
-    public List<Fragment> findAllFragments(){
-        return this.fragmentRepository.findAll();
+    public List<Fragment> findAllFragmentsInOrder(){
+        return this.fragmentRepository.findAllOrderedByOrderNumber()
+            .orElseThrow(() -> new RuntimeException("Lista de fragmentos no encontrado"));
+
+    }
+
+    public Fragment createFragment(Fragment fragment){
+        return fragmentRepository.save(fragment);
+    }
+
+    public void deleteFragment(Long id) {
+        if (!fragmentRepository.existsById(id)) {
+            throw new RuntimeException("Fragmento no encontrado con ID: " + id);
+        }
+        fragmentRepository.deleteById(id);
     }
 }
