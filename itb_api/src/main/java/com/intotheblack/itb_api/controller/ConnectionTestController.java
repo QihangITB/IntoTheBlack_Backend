@@ -1,6 +1,9 @@
 package com.intotheblack.itb_api.controller;
 
 import com.intotheblack.itb_api.service.ConnectionTestService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/test")
+@Tag(name = "Connection-test")
 public class ConnectionTestController {
     @Autowired
     private ConnectionTestService conectionTestService;

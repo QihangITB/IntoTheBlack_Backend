@@ -19,7 +19,7 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Player> getPlayerById(@PathVariable Long id) {
         return ResponseEntity.ok(playerService.findPlayerById(id));
     }
@@ -30,13 +30,13 @@ public class PlayerController {
     }
 
     @PostMapping()
-    public ResponseEntity<Player> postNewPlayer(@RequestBody Player player) {
+    public ResponseEntity<Player> createNewPlayer(@RequestBody Player player) {
         Player newPlayer = playerService.createPlayer(player);
         return ResponseEntity.status(HttpStatus.CREATED).body(newPlayer);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePlayer(@PathVariable Long id) {
+    public ResponseEntity<String> deletePlayerById(@PathVariable Long id) {
         playerService.deletePlayerById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Jugador eliminado con éxito");
     }

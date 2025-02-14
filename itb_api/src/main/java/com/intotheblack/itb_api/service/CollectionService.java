@@ -34,7 +34,7 @@ public class CollectionService {
         collectionRepository.deleteById(id);
     }
 
-    public Collection addNewFragment(Long collectionId, Integer fragmentId){
+    public Collection addNewFragmentById(Long collectionId, Integer fragmentId){
         Collection collection = findCollectionById(collectionId);
 
         List<Integer> fragmentList = collection.getFragmentList();
@@ -48,7 +48,7 @@ public class CollectionService {
         return collectionRepository.save(collection);
     }
 
-    public Collection deleteOldFragment(Long collectionId, Integer fragmentId){
+    public Collection deleteOldFragmentById(Long collectionId, Integer fragmentId){
         Collection collection = findCollectionById(collectionId);
 
         List<Integer> fragmentList = collection.getFragmentList();
@@ -64,7 +64,7 @@ public class CollectionService {
         return collectionRepository.save(collection);
     }
 
-    public Collection cleanFragments(Long collectionId){
+    public Collection cleanFragmentsById(Long collectionId){
         Collection collection = findCollectionById(collectionId);
         collection.getFragmentList().clear(); // Reinicia la lista de fragmentos
 

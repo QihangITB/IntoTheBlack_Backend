@@ -1,22 +1,23 @@
 package com.intotheblack.itb_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import com.intotheblack.itb_api.repository.PlayerRepository;
 
 @Service
 public class ConnectionTestService {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private PlayerRepository playerRepository;
 
-    // Método que verifica si la base de datos está conectada
+    // Método que verifica si la base de datos está conectada.
     public boolean isDatabaseConnected() {
         try {
-            String sql = "SELECT COUNT(*) FROM player";
-            Integer result = jdbcTemplate.queryForObject(sql, Integer.class);
-            return result != null;
+            // Intentamos obtener al menos un jugador de la base de datos
+            long count = playerRepository.count(); // Esto hace una consulta simple para contar los jugadores
+            return count >= 0; // Si la consulta funciona, la base de datos está conectada
         } catch (Exception e) {
-            return false;
+            return false; // Si ocurre algún error, no se puede conectar a la base de datos
         }
     }
 }

@@ -23,17 +23,23 @@ public class FragmentService {
     public List<Fragment> findAllFragmentsInOrder(){
         return this.fragmentRepository.findAllOrderByOrderNumber()
             .orElseThrow(() -> new RuntimeException("Lista de fragmentos no encontrado"));
-
     }
 
     public Fragment createFragment(Fragment fragment){
         return fragmentRepository.save(fragment);
     }
 
-    public void deleteFragmentById(Long id) {
+    public void deleteFragmentById(Long id){
         if (!fragmentRepository.existsById(id)) {
             throw new RuntimeException("Fragmento no encontrado con ID: " + id);
         }
         fragmentRepository.deleteById(id);
+    }
+
+    public Fragment changeMessageById(Long id, String messagge){
+        Fragment fragment = findFragmentById(id);
+        fragment.setMessage(messagge);
+
+        return fragmentRepository.save(fragment);
     }
 }
