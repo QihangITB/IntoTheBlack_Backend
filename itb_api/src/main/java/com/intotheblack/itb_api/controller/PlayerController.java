@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/players")
+@RequestMapping("/api/players")
 @Tag(name = "Players", description = "Endpoints para gestionar jugadores")
 public class PlayerController {
     private final PlayerService playerService;
@@ -19,25 +19,25 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Player> getPlayerById(@PathVariable Long id) {
         return ResponseEntity.ok(playerService.findPlayerById(id));
     }
 
-    @GetMapping("/find/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<Player> getPlayerByUsername(@PathVariable String username) {
         return ResponseEntity.ok(playerService.findPlayerByUsername(username));
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<Player> postNewPlayer(@RequestBody Player player) {
         Player newPlayer = playerService.createPlayer(player);
         return ResponseEntity.status(HttpStatus.CREATED).body(newPlayer);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePlayer(@PathVariable Long id) {
-        playerService.deletePlayer(id);
+        playerService.deletePlayerById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Jugador eliminado con éxito");
     }
 }

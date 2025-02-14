@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface FragmentRepository extends JpaRepository<Fragment, Long> {
 
     @Query("SELECT f FROM Fragment f ORDER BY f.orderNumber ASC")
-    Optional <List<Fragment>> findAllOrderedByOrderNumber();
+    Optional <List<Fragment>> findAllOrderByOrderNumber();
 }

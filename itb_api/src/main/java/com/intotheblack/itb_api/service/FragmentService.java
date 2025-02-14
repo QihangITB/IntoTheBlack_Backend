@@ -21,7 +21,7 @@ public class FragmentService {
     }
 
     public List<Fragment> findAllFragmentsInOrder(){
-        return this.fragmentRepository.findAllOrderedByOrderNumber()
+        return this.fragmentRepository.findAllOrderByOrderNumber()
             .orElseThrow(() -> new RuntimeException("Lista de fragmentos no encontrado"));
 
     }
@@ -30,7 +30,7 @@ public class FragmentService {
         return fragmentRepository.save(fragment);
     }
 
-    public void deleteFragment(Long id) {
+    public void deleteFragmentById(Long id) {
         if (!fragmentRepository.existsById(id)) {
             throw new RuntimeException("Fragmento no encontrado con ID: " + id);
         }

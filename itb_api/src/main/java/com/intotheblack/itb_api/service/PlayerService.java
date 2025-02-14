@@ -28,7 +28,7 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
-    public void deletePlayer(Long id) {
+    public void deletePlayerById(Long id) {
         if (!playerRepository.existsById(id)) {
             throw new RuntimeException("Jugador no encontrado con ID: " + id);
         }
