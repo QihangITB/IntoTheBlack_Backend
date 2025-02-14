@@ -11,7 +11,7 @@ CREATE TABLE collection (
     fragment_list INT[]
 );
 
--- Crear la tabla de usuarios
+-- Crear la tabla de jugadores
 CREATE TABLE player (
     player_id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -21,3 +21,5 @@ CREATE TABLE player (
     collection_id INT NOT NULL,
     FOREIGN KEY (collection_id) REFERENCES collection(collection_id)
 );
+
+-- Crear tabla de usuarios
