@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FragmentRepository extends JpaRepository<Fragment, Long> {
+public interface FragmentRepository extends JpaRepository<Fragment, Integer> {
 
     @Query("SELECT f FROM Fragment f ORDER BY f.orderNumber ASC")
     Optional <List<Fragment>> findAllOrderByOrderNumber();

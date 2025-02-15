@@ -1,24 +1,36 @@
 package com.intotheblack.itb_api.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
+@Table(name = "\"user\"") // "user" es una palabra reservada en SQL
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    @Column(name = "user_id")
+    private Integer id;
+
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    private String password;  // Aquí guardaremos la contraseña hasheada
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Player> players;
 
     // Getters y setters
-    public Long getUserId() {
-        return userId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserId(Long id) {
-        this.userId = id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -29,6 +41,14 @@ public class User {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail(){
         return this.email;
     }
@@ -37,12 +57,11 @@ public class User {
         this.email = email;
     }
 
-
-    public String getPassword() {
-        return password;
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 }
