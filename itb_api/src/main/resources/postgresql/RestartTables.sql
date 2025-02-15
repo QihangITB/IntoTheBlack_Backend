@@ -1,3 +1,8 @@
+-- Eliminar tablas
+DROP TABLE IF EXISTS fragment;
+DROP TABLE IF EXISTS player;
+DROP TABLE IF EXISTS "user";
+
 -- Crear tabla de usuarios
 CREATE TABLE "user" (
     user_id SERIAL PRIMARY KEY,
