@@ -55,9 +55,9 @@ public class UserController {
             @RequestParam String password) {
         boolean success = userService.checkPasswordWithUsername(username, password);
         if (success) {
-            return new ResponseEntity<>("Contraseña correcta.", HttpStatus.OK);
+            return new ResponseEntity<>("Contraseña CORRECTA.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Contraseña incorrecta.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Contraseña INCORRECTA.", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -66,9 +66,9 @@ public class UserController {
     public ResponseEntity<String> deleteUserByName(@PathVariable String username) {
         boolean success = userService.deleteUserByUsername(username);
         if (success) {
-            return new ResponseEntity<>("Usuario eliminado correctamente.", HttpStatus.OK);
+            return new ResponseEntity<>("Usuario eliminado correctamente", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Usuario no encontrado o error al eliminar.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
         }
     }
 }

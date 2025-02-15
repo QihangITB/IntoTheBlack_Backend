@@ -41,13 +41,6 @@ public class FragmentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newFragment);
     }
 
-    @Operation(summary = "Eliminar un fragmento a través del id")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFragmentById(@PathVariable Integer id) {
-        fragmentService.deleteFragmentById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Fragmento eliminado con éxito");
-    }
-
     @Operation(summary = "Actualizar el mensaje de un fragmento a través del id")
     @PutMapping("/message/{id}")
     public ResponseEntity<Fragment> updateMessageById(
@@ -60,6 +53,17 @@ public class FragmentController {
             return ResponseEntity.badRequest().body(null); // Error por mensaje inválido
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Error del servidor
+        }
+    }
+
+    @Operation(summary = "Eliminar un fragmento a través del id")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteFragmentById(@PathVariable Integer id) {
+        boolean success = fragmentService.deleteFragmentById(id);
+        if(success) {
+            return new ResponseEntity<>("Fragmento eliminado con éxito", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fragmento no encontrado", HttpStatus.NOT_FOUND);
         }
     }
 }

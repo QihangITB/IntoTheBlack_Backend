@@ -10,7 +10,7 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "player_id")
-    private String id;
+    private Integer id;
 
     @Column(name = "record_time")
     private String recordTime;
@@ -24,11 +24,11 @@ public class Player {
     private User user;
 
      // Getters y setters
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -15,7 +15,7 @@ CREATE TABLE "user" (
 CREATE TABLE player (
     player_id SERIAL PRIMARY KEY,
     record_time VARCHAR(255),
-    fragment_list VARCHAR(2)[],
+    fragment_list VARCHAR(5)[],
     user_id INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES "user"(user_id) ON DELETE CASCADE
 );
@@ -25,4 +25,11 @@ CREATE TABLE fragment (
     fragment_id SERIAL PRIMARY KEY,
     order_number INT NOT NULL,
     message TEXT NOT NULL
+);
+
+-- Crear la tabla de fragmentos
+CREATE TABLE player_fragment_list (
+    player_player_id INT NOT NULL,
+    fragment VARCHAR(255),
+    FOREIGN KEY (player_player_id) REFERENCES player(player_id) ON DELETE CASCADE
 );

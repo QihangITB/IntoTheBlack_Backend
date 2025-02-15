@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class FragmentService {
+    
     private final FragmentRepository fragmentRepository;
 
     public FragmentService(FragmentRepository fragmentRepository) {
@@ -35,17 +36,6 @@ public class FragmentService {
         return fragmentRepository.save(fragment);
     }
 
-    public boolean deleteFragmentById(Integer id){
-        Optional<Fragment> fragmentOptional = fragmentRepository.findById(id);
-
-        if(fragmentOptional.isPresent()){
-            Fragment fragment = fragmentOptional.get();
-            fragmentRepository.deleteById(fragment.getId());
-            return true; // Eliminado con éxito
-        }
-        return false; // Fragmento no encontrado
-    }
-
     public Fragment changeMessageById(Integer id, MessageRequestDTO request){
         Optional<Fragment> fragmentOptional = fragmentRepository.findById(id);
 
@@ -55,5 +45,16 @@ public class FragmentService {
             return fragmentRepository.save(fragment);
         }
         throw new IllegalArgumentException("Fragmento no encontrado con id: " + id);
+    }
+
+    public boolean deleteFragmentById(Integer id){
+        Optional<Fragment> fragmentOptional = fragmentRepository.findById(id);
+
+        if(fragmentOptional.isPresent()){
+            Fragment fragment = fragmentOptional.get();
+            fragmentRepository.deleteById(fragment.getId());
+            return true; // Eliminado con éxito
+        }
+        return false; // Fragmento no encontrado
     }
 }
