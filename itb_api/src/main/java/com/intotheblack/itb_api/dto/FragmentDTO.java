@@ -2,15 +2,15 @@ package com.intotheblack.itb_api.dto;
 
 public class FragmentDTO {
 
-    private String orderNumber;
+    private Integer orderNumber;
     private String message;
 
     // Getters y Setters
-    public String getOrderNumber() {
+    public Integer getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(String orderNumber) {
+    public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
 

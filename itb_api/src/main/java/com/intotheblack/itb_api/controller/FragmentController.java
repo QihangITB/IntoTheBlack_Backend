@@ -4,6 +4,8 @@ import com.intotheblack.itb_api.model.Fragment;
 import com.intotheblack.itb_api.dto.FragmentDTO;
 import com.intotheblack.itb_api.dto.MessageRequestDTO;
 import com.intotheblack.itb_api.service.FragmentService;
+
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,28 +22,33 @@ public class FragmentController {
         this.fragmentService = fragmentService;
     }
 
+    @Operation(summary = "Obtener fragmento a través del id")
     @GetMapping("/{id}")
     public ResponseEntity<Fragment> getFragmentById(@PathVariable Integer id) {
         return ResponseEntity.ok(fragmentService.findFragmentById(id));
     }
 
+    @Operation(summary = "Obtener todos los fragmentos en orden (no por orden de id)")
     @GetMapping("/all-in-order")
     public ResponseEntity<List<Fragment>> getAllFragmentsInOrder() {
         return ResponseEntity.ok(fragmentService.findAllFragmentsInOrder());
     }
 
+    @Operation(summary = "Crear un nuevo fragmento")
     @PostMapping()
     public ResponseEntity<Fragment> createNewFragment(@RequestBody FragmentDTO fragment) {
         Fragment newFragment = fragmentService.createFragment(fragment);
         return ResponseEntity.status(HttpStatus.CREATED).body(newFragment);
     }
 
+    @Operation(summary = "Eliminar un fragmento a través del id")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFragmentById(@PathVariable Integer id) {
         fragmentService.deleteFragmentById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Fragmento eliminado con éxito");
     }
 
+    @Operation(summary = "Actualizar el mensaje de un fragmento a través del id")
     @PutMapping("/message/{id}")
     public ResponseEntity<Fragment> updateMessageById(
         @PathVariable Integer id, 
@@ -55,5 +62,4 @@ public class FragmentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Error del servidor
         }
     }
-
 }

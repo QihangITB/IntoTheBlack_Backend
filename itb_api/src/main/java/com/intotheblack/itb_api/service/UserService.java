@@ -31,13 +31,13 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado con username: " + username));
     }
 
-    public User registerUser(UserDTO user) {
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());        
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        newUser.setEmail(user.getEmail());
+    public User registerUser(UserDTO request) {
+        User user = new User();
+        user.setUsername(request.getUsername());        
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setEmail(request.getEmail());
 
-        return userRepository.save(newUser);
+        return userRepository.save(user);
     }
 
     public boolean changePasswordWithUsername(String username, PasswordRequestDTO request) {

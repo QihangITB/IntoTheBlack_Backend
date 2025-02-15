@@ -12,7 +12,7 @@ public class Fragment {
     private Integer id;
 
     @Column(name = "order_number", nullable = false)
-    private String orderNumber;
+    private Integer orderNumber;
 
     @Column(name = "message", nullable = false)
     private String message;
@@ -26,11 +26,11 @@ public class Fragment {
         this.id = id;
     }
 
-    public String getOrderNumber() {
+    public Integer getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(String orderNumber) {
+    public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
 

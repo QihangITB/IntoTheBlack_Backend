@@ -17,7 +17,6 @@ public class FragmentService {
     } 
 
     // METHODS:
-
     public Fragment findFragmentById(Integer id){
         return this.fragmentRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Fragmento no encontrado con id: " + id));
@@ -28,12 +27,12 @@ public class FragmentService {
             .orElseThrow(() -> new RuntimeException("Lista de fragmentos no encontrado"));
     }
 
-    public Fragment createFragment(FragmentDTO fragment){
-        Fragment newFragment = new Fragment();
-        newFragment.setOrderNumber(fragment.getOrderNumber());
-        newFragment.setMessage(fragment.getMessage());
+    public Fragment createFragment(FragmentDTO request){
+        Fragment fragment = new Fragment();
+        fragment.setOrderNumber(request.getOrderNumber());
+        fragment.setMessage(request.getMessage());
 
-        return fragmentRepository.save(newFragment);
+        return fragmentRepository.save(fragment);
     }
 
     public boolean deleteFragmentById(Integer id){
