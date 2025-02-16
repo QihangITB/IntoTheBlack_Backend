@@ -1,6 +1,6 @@
 package com.intotheblack.itb_api.dto;
 
-public class UserDTO {
+public class UserRegisterDTO {
 
     private String username;
 

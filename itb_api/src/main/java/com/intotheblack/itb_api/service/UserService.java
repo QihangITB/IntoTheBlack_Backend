@@ -2,10 +2,11 @@ package com.intotheblack.itb_api.service;
 
 import com.intotheblack.itb_api.model.User;
 import com.intotheblack.itb_api.dto.PasswordRequestDTO;
-import com.intotheblack.itb_api.dto.UserDTO;
+import com.intotheblack.itb_api.dto.PlayersResponseDTO;
+import com.intotheblack.itb_api.dto.UserRegisterDTO;
+import com.intotheblack.itb_api.dto.UserLoginDTO;
 import com.intotheblack.itb_api.repository.UserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -13,10 +14,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository) {
@@ -25,13 +23,22 @@ public class UserService {
     }
 
     // METHODS:
-
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado con username: " + username));
     }
 
-    public User registerUser(UserDTO request) {
+    public PlayersResponseDTO findPlayersByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
+            return new PlayersResponseDTO(user.getPlayers());
+        }
+        return new PlayersResponseDTO();
+    }
+
+    public User registerUser(UserRegisterDTO request) {
         User user = new User();
         user.setUsername(request.getUsername());        
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -69,16 +76,16 @@ public class UserService {
         }
     }
 
-    public boolean checkPasswordWithUsername(String username, String password) {
+    public boolean checkPasswordWithUsername(UserLoginDTO login) {
         try {
-            Optional<User> userOptional = userRepository.findByUsername(username);
+            Optional<User> userOptional = userRepository.findByUsername(login.getUsername());
     
             if (userOptional.isEmpty()) {
                 return false; // Usuario no encontrado
             }
     
             User user = userOptional.get();
-            return checkPasswordWithUser(user, password);
+            return checkPasswordWithUser(user, login.getPassword());
     
         } catch (NumberFormatException e) {
             return false; // ID no válido
