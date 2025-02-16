@@ -33,8 +33,8 @@ public class PlayerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newPlayer);
     }
 
-    @Operation(summary = "Restablecer los datos de un jugador a los valores iniciales")
-    @PutMapping("/reset-data")
+    @Operation(summary = "Restablecer los datos a los valores iniciales")
+    @PutMapping("/{playerId}/reset-data")
     public ResponseEntity<String> resetPlayerDataById(@PathVariable Integer playerId) {
         boolean success = playerService.resetPlayerDataById(playerId);
         if (success) {
@@ -44,8 +44,17 @@ public class PlayerController {
         }
     }
 
-    @Operation(summary = "Añadir nuevo fragmento de colección a jugador")
-    @PutMapping("/{playerId}/add-fragment/{fragmentId}")
+    @Operation(summary = "Actualizar tiempo de finalziación del jugador a través del id")
+    @PutMapping("/{playerId}/time")
+    public ResponseEntity<Player> updateTimeById(
+        @PathVariable Integer playerId, 
+        @RequestParam String recordTime) {
+        Player player = playerService.changeRecordTimeById(playerId, recordTime);
+        return ResponseEntity.ok(player);
+    }
+
+    @Operation(summary = "Añadir nuevo fragmento de colección a jugador utilizando los id's")
+    @PutMapping("/{playerId}/fragment/add/{fragmentId}")
     public ResponseEntity<Player> addFragmentToPlayerById(
         @PathVariable Integer playerId, 
         @PathVariable Integer fragmentId) {

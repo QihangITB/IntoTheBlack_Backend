@@ -3,8 +3,10 @@ package com.intotheblack.itb_api.model;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name = "\"user\"") // "user" es una palabra reservada en SQL
+@Table(name = "user_account") // "user" es una palabra reservada en SQL
 public class User {
 
     @Id
@@ -22,6 +24,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // Evitar bucle infinito al serializar
     private List<Player> players;
 
     // Getters y setters

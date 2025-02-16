@@ -59,6 +59,17 @@ public class PlayerService {
         return player;
     }
 
+    public Player changeRecordTimeById(Integer id, String recordTime) {
+        Optional<Player> playerOptional = playerRepository.findById(id);
+
+        if(playerOptional.isPresent()){
+            Player player = playerOptional.get();
+            player.setRecordTime(recordTime);
+            return playerRepository.save(player);
+        }
+        throw new IllegalArgumentException("Jugador no encontrado con id: " + id);
+    }
+
     public Player addFragmentToListById(Integer id, Integer fragmentId){
         Optional<Player> playerOptional = playerRepository.findById(id);
         Fragment fragment = fragmentService.findFragmentById(fragmentId);

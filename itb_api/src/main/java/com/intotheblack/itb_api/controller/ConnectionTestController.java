@@ -2,6 +2,7 @@ package com.intotheblack.itb_api.controller;
 
 import com.intotheblack.itb_api.service.ConnectionTestService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class ConnectionTestController {
     @Autowired
     private ConnectionTestService conectionTestService;
 
+    @Operation(summary = "Comprobar la conexión a la base de datos")
     @GetMapping("/db-connection")
     public ResponseEntity<String> checkDatabaseConnection() {
         boolean isDbConnected = conectionTestService.isDatabaseConnected();
