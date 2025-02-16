@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @Operation(summary = "Cambiar la contraseña de un usuario")
-    @PutMapping("/password/change/{username}")
+    @PutMapping("/{username}/password/change")
     public ResponseEntity<String> changePassword(
             @PathVariable String username, 
             @RequestBody PasswordRequestDTO passwordRequest) {
@@ -48,8 +48,8 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Comprobar contraseña de un usuario")
-    @GetMapping("/password/check/{username}")
+    @Operation(summary = "Verificar la contraseña de un usuario")
+    @GetMapping("/{username}/password/check")
     public ResponseEntity<String> checkPassword(
             @PathVariable String username, 
             @RequestParam String password) {
@@ -61,7 +61,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "Eliminar un usuario a través de ID")
+    @Operation(summary = "Eliminar un usuario a través del nombre")
     @DeleteMapping("/{username}")
     public ResponseEntity<String> deleteUserByName(@PathVariable String username) {
         boolean success = userService.deleteUserByUsername(username);

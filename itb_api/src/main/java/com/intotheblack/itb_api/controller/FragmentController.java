@@ -23,9 +23,9 @@ public class FragmentController {
     }
 
     @Operation(summary = "Obtener fragmento a través del id")
-    @GetMapping("/{id}")
-    public ResponseEntity<Fragment> getFragmentById(@PathVariable Integer id) {
-        return ResponseEntity.ok(fragmentService.findFragmentById(id));
+    @GetMapping("/{fragmentId}")
+    public ResponseEntity<Fragment> getFragmentById(@PathVariable Integer fragmentId) {
+        return ResponseEntity.ok(fragmentService.findFragmentById(fragmentId));
     }
 
     @Operation(summary = "Obtener todos los fragmentos en orden (no por orden de id)")
@@ -42,12 +42,12 @@ public class FragmentController {
     }
 
     @Operation(summary = "Actualizar el mensaje de un fragmento a través del id")
-    @PutMapping("/message/{id}")
+    @PutMapping("/{fragmentId}/message")
     public ResponseEntity<Fragment> updateMessageById(
-        @PathVariable Integer id, 
+        @PathVariable Integer fragmentId, 
         @RequestBody MessageRequestDTO message) {
         try {
-            Fragment updatedFragment = fragmentService.changeMessageById(id, message);
+            Fragment updatedFragment = fragmentService.changeMessageById(fragmentId, message);
             return ResponseEntity.ok(updatedFragment); // Devuelve el fragmento actualizado
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(null); // Error por mensaje inválido
@@ -57,9 +57,9 @@ public class FragmentController {
     }
 
     @Operation(summary = "Eliminar un fragmento a través del id")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFragmentById(@PathVariable Integer id) {
-        boolean success = fragmentService.deleteFragmentById(id);
+    @DeleteMapping("/{fragmentId}")
+    public ResponseEntity<String> deleteFragmentById(@PathVariable Integer fragmentId) {
+        boolean success = fragmentService.deleteFragmentById(fragmentId);
         if(success) {
             return new ResponseEntity<>("Fragmento eliminado con éxito", HttpStatus.OK);
         } else {
