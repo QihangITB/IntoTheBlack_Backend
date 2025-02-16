@@ -1,4 +1,5 @@
 -- Eliminar tablas
+DROP TABLE IF EXISTS player_fragment;
 DROP TABLE IF EXISTS fragment;
 DROP TABLE IF EXISTS player;
 DROP TABLE IF EXISTS "user";
@@ -27,9 +28,11 @@ CREATE TABLE fragment (
     message TEXT NOT NULL
 );
 
--- Crear la tabla de fragmentos
-CREATE TABLE player_fragment_list (
-    player_player_id INT NOT NULL,
-    fragment VARCHAR(255),
-    FOREIGN KEY (player_player_id) REFERENCES player(player_id) ON DELETE CASCADE
+-- Crear tabla intermediario entre fragmentos y jugadores
+CREATE TABLE player_fragment (
+    player_id INT NOT NULL,
+    fragment_id INT NOT NULL,
+    PRIMARY KEY (player_id, fragment_id),
+    FOREIGN KEY (player_id) REFERENCES player(player_id) ON DELETE CASCADE,
+    FOREIGN KEY (fragment_id) REFERENCES fragment(fragment_id) ON DELETE CASCADE
 );

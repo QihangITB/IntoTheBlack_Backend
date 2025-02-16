@@ -69,10 +69,6 @@ public class UserService {
         }
     }
 
-    public boolean checkPasswordWithUser(User user, String password) {
-        return passwordEncoder.matches(password, user.getPassword());
-    }
-
     public boolean checkPasswordWithUsername(String username, String password) {
         try {
             Optional<User> userOptional = userRepository.findByUsername(username);
@@ -87,6 +83,10 @@ public class UserService {
         } catch (NumberFormatException e) {
             return false; // ID no válido
         }
+    }
+
+    private boolean checkPasswordWithUser(User user, String password) {
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     public boolean deleteUserByUsername(String username) {

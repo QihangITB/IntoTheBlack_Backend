@@ -15,9 +15,13 @@ public class Player {
     @Column(name = "record_time")
     private String recordTime;
 
-    @ElementCollection
-    @Column(name = "fragment_list")
-    private List<String> fragmentList;
+    @ManyToMany
+    @JoinTable(
+        name = "player_fragment",
+        joinColumns = @JoinColumn(name = "player_id"),
+        inverseJoinColumns = @JoinColumn(name = "fragment_id")
+    )
+    private List<Fragment> fragmentList;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -40,11 +44,11 @@ public class Player {
         this.recordTime = recordTime;
     }
 
-    public List<String> getFragmentList() {
+    public List<Fragment> getFragmentList() {
         return fragmentList;
     }
 
-    public void setFragmentList(List<String> fragmentList) {
+    public void setFragmentList(List<Fragment> fragmentList) {
         this.fragmentList = fragmentList;
     }
 
