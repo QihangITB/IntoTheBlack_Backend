@@ -17,4 +17,4 @@ COPY src ./src
 RUN mvn clean install -DskipTests
 
 # Define el comando de inicio
-CMD ["java", "-jar", "target/mi-aplicacion.jar"]
+CMD ["java", "-jar", "target/itb_api-0.0.1.jar"]
