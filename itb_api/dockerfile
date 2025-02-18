@@ -1,4 +1,4 @@
-FROM maven:3.8.4-openjdk-11-slim
+FROM eclipse-temurin:17-jdk AS build
 
 # Agrega tu código y otros pasos necesarios para tu aplicación
 WORKDIR /app
