@@ -1,8 +1,15 @@
-FROM eclipse-temurin:17-jdk AS build
+# Usa la imagen Maven con JDK 17 preinstalado
+FROM maven:3-jdk-17 AS build
 
-# Agrega tu código y otros pasos necesarios para tu aplicación
+# Establece el directorio de trabajo
 WORKDIR /app
-COPY . .
 
-# Puedes ejecutar comandos Maven aquí si es necesario
-RUN mvn clean install
+# Copia el código fuente y el archivo pom.xml
+COPY pom.xml .
+COPY src ./src
+
+# Compila el proyecto
+RUN mvn clean install -DskipTests
+
+# Define el comando de inicio
+CMD ["java", "-jar", "target/mi-aplicacion.jar"]
