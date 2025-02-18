@@ -1,11 +1,16 @@
-# Usa la imagen Maven con JDK 17 preinstalado
-FROM maven:3-jdk-17 AS build
+# Usa una imagen base de JDK 17
+FROM eclipse-temurin:17-jdk AS build
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia el código fuente y el archivo pom.xml
+# Instala Maven
+RUN apt-get update && apt-get install -y maven
+
+# Copia el archivo pom.xml
 COPY pom.xml .
+
+# Copia el código fuente
 COPY src ./src
 
 # Compila el proyecto
