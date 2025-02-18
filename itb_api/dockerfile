@@ -1,0 +1,8 @@
+FROM maven:3.8.4-openjdk-11-slim
+
+# Agrega tu código y otros pasos necesarios para tu aplicación
+WORKDIR /app
+COPY . .
+
+# Puedes ejecutar comandos Maven aquí si es necesario
+RUN mvn clean install
