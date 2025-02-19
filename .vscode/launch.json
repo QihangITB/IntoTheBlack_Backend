@@ -13,7 +13,7 @@
         },
         {
             "type": "java",
-            "name": "ItbApiApplication",
+            "name": "Run ITB-API",
             "request": "launch",
             "mainClass": "com.intotheblack.itb_api.ItbApiApplication",
             "projectName": "itb_api"
