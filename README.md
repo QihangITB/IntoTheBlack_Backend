@@ -3,6 +3,12 @@
 ## Ejecutar aplicación
 mvn spring-boot:run
 
+## Borrar build
+mvn clean
+
+## Compilar build
+mvn clean package
+
 ## Enlace local:
 http://localhost:8080/swagger-ui/index.html
 
