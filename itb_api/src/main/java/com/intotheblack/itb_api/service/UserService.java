@@ -6,20 +6,18 @@ import com.intotheblack.itb_api.dto.PlayersResponseDTO;
 import com.intotheblack.itb_api.dto.UserRegisterDTO;
 import com.intotheblack.itb_api.dto.UserLoginDTO;
 import com.intotheblack.itb_api.repository.UserRepository;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     // METHODS:
