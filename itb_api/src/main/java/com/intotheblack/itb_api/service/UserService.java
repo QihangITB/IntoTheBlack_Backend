@@ -3,7 +3,6 @@ package com.intotheblack.itb_api.service;
 import com.intotheblack.itb_api.model.User;
 import com.intotheblack.itb_api.dto.PasswordRequestDTO;
 import com.intotheblack.itb_api.dto.PlayersResponseDTO;
-import com.intotheblack.itb_api.dto.UserRegisterDTO;
 import com.intotheblack.itb_api.dto.UserLoginDTO;
 import com.intotheblack.itb_api.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +25,7 @@ public class UserService {
             .orElseThrow(() -> new RuntimeException("Usuario no encontrado con username: " + username));
     }
 
-    public PlayersResponseDTO findPlayersByUsername(String username) {
+    public PlayersResponseDTO findUserPlayersByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
 
         if(userOptional.isPresent()) {
@@ -34,15 +33,6 @@ public class UserService {
             return new PlayersResponseDTO(user.getPlayers());
         }
         return new PlayersResponseDTO();
-    }
-
-    public User registerUser(UserRegisterDTO request) {
-        User user = new User();
-        user.setUsername(request.getUsername());        
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setEmail(request.getEmail());
-
-        return userRepository.save(user);
     }
 
     public boolean changePasswordWithUsername(String username, PasswordRequestDTO request) {

@@ -1,7 +1,6 @@
 package com.intotheblack.itb_api.controller;
 
 import com.intotheblack.itb_api.model.User;
-import com.intotheblack.itb_api.dto.UserRegisterDTO;
 import com.intotheblack.itb_api.dto.UserLoginDTO;
 import com.intotheblack.itb_api.dto.PasswordRequestDTO;
 import com.intotheblack.itb_api.dto.PlayersResponseDTO;
@@ -33,24 +32,18 @@ public class UserController {
     @Operation(summary = "Obtener jugadores de un usuario a través del nombre")
     @GetMapping("/{username}/players")
     public ResponseEntity<PlayersResponseDTO> getPlayersByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(userService.findPlayersByUsername(username));
-    }
-
-    @Operation(summary = "Registrar un nuevo usuario")
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody UserRegisterDTO user) {
-        User newUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        return ResponseEntity.ok(userService.findUserPlayersByUsername(username));
     }
     
-    @Operation(summary = "Iniciar sessión con un usuario")
-    @PostMapping("/login")
+    @Operation(summary = "Verificar la contraseña de un usuario")
+    @PostMapping("/password/check")
     public ResponseEntity<String> checkPassword(@RequestBody UserLoginDTO login) {
         boolean success = userService.checkPasswordWithUsername(login);
+        
         if (success) {
-            return new ResponseEntity<>("Sessión iniciada correctamente.", HttpStatus.OK);
+            return ResponseEntity.ok("Contraseña correcta");
         } else {
-            return new ResponseEntity<>("Error al iniciar sessión.", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Contraseña incorrecta");
         }
     }
 

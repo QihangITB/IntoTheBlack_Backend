@@ -13,7 +13,6 @@ public class AuthResponseDTO {
         this.user = user;
     }
 
-
     // Getters y Setters
     public String getToken() {
         return token;
