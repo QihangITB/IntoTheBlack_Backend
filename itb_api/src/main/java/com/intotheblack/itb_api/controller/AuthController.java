@@ -15,6 +15,7 @@ import com.intotheblack.itb_api.dto.LoginRequestDTO;
 import com.intotheblack.itb_api.dto.RegisterRequestDTO;
 import com.intotheblack.itb_api.service.AuthService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 
@@ -25,6 +26,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class AuthController {
     private final AuthService authService;
 
+    @Operation(summary = "Verificar los datos de un usuario")
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequestDTO request) {
         try {
@@ -35,6 +37,7 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Registrar un nuevo usuario")
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody RegisterRequestDTO request) {
         try {

@@ -2,6 +2,7 @@ package com.intotheblack.itb_api.controller;
 
 import com.intotheblack.itb_api.model.Player;
 import com.intotheblack.itb_api.service.PlayerService;
+import com.intotheblack.itb_api.util.GlobalMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +32,7 @@ public class PlayerController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }    }
 
     @Operation(summary = "Crear un nuevo perfil de jugador")
@@ -43,7 +44,7 @@ public class PlayerController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor"); 
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR); 
         }
     }
 
@@ -53,14 +54,14 @@ public class PlayerController {
         try {
             boolean success = playerService.resetPlayerDataById(playerId);
             if (success) {
-                return new ResponseEntity<>("Datos restablecidos con éxito", HttpStatus.OK);
+                return new ResponseEntity<>(GlobalMessage.DATA_RESET_SUCCESSFULLY, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Jugador no encontrado", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(GlobalMessage.PLAYER_NOT_FOUND, HttpStatus.NOT_FOUND);
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 
@@ -77,7 +78,7 @@ public class PlayerController {
             } catch (RuntimeException e) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
             }
     }
 
@@ -94,7 +95,7 @@ public class PlayerController {
             } catch (RuntimeException e) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
             }
     }
 
@@ -104,14 +105,14 @@ public class PlayerController {
         try {
             boolean success = playerService.deletePlayerById(playerId);
             if (success) {
-                return new ResponseEntity<>("Jugador eliminado con éxito", HttpStatus.OK);
+                return new ResponseEntity<>(GlobalMessage.PLAYER_DELETED_SUCCESSFULLY, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Jugador no encontrado", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(GlobalMessage.PLAYER_NOT_FOUND, HttpStatus.NOT_FOUND);
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 }

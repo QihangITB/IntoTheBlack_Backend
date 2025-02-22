@@ -4,6 +4,7 @@ import com.intotheblack.itb_api.model.Fragment;
 import com.intotheblack.itb_api.dto.FragmentRequestDTO;
 import com.intotheblack.itb_api.dto.MessageRequestDTO;
 import com.intotheblack.itb_api.service.FragmentService;
+import com.intotheblack.itb_api.util.GlobalMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +34,7 @@ public class FragmentController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor"); // Error del servidor
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 
@@ -46,7 +47,7 @@ public class FragmentController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }    
     }
 
@@ -57,9 +58,9 @@ public class FragmentController {
             Fragment newFragment = fragmentService.createFragment(fragment);
             return ResponseEntity.status(HttpStatus.CREATED).body(newFragment);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage()); // Error por solicitud inválida
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor"); // Error del servidor
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 
@@ -76,7 +77,7 @@ public class FragmentController {
             } catch (RuntimeException e) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
             }
     }
 
@@ -86,14 +87,14 @@ public class FragmentController {
         try {
             boolean success = fragmentService.deleteFragmentById(fragmentId);
             if(success) {
-                return new ResponseEntity<>("Fragment deleted successfully", HttpStatus.OK);
+                return new ResponseEntity<>(GlobalMessage.FRAGMENT_DELETED_SUCCESSFULLY, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Fragment not deleted", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(GlobalMessage.FRAGMENT_DELETION_FAILED, HttpStatus.NOT_FOUND);
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 }

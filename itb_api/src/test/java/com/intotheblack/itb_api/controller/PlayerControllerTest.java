@@ -224,7 +224,7 @@ class PlayerControllerTest {
 
     @Test
     void testUpdateTimeById_InvalidId() {
-        doThrow(new IllegalArgumentException("Id cannot be negative")).when(playerService).changeRecordTimeById(-1, "recordTime");
+        doThrow(new IllegalArgumentException("Id cannot be negative")).when(playerService).changeRecordTimeById(-1, "00:00:12");
 
         ResponseEntity<Object> response = playerController.updateTimeById(-1, "00:00:12");
 

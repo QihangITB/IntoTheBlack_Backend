@@ -5,6 +5,7 @@ import com.intotheblack.itb_api.dto.LoginRequestDTO;
 import com.intotheblack.itb_api.dto.PasswordRequestDTO;
 import com.intotheblack.itb_api.dto.PlayersResponseDTO;
 import com.intotheblack.itb_api.service.UserService;
+import com.intotheblack.itb_api.util.GlobalMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +35,7 @@ public class UserController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 
@@ -49,7 +50,7 @@ public class UserController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
     
@@ -59,14 +60,14 @@ public class UserController {
         try {
             boolean success = userService.checkPasswordWithUsername(login);
             if (success) {
-                return ResponseEntity.ok("Correct password");
+                return ResponseEntity.ok(GlobalMessage.CORRECT_PASSWORD);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect password");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GlobalMessage.INCORRECT_PASSWORD);
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 
@@ -78,14 +79,14 @@ public class UserController {
         try {
             boolean success = userService.changePasswordWithUsername(username, passwordRequest);
             if (success) {
-                return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
+                return new ResponseEntity<>(GlobalMessage.PASSWORD_CHANGED_SUCCESSFULLY, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Error changing password", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(GlobalMessage.PASSWORD_CHANGE_FAILED, HttpStatus.BAD_REQUEST);
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 
@@ -95,14 +96,14 @@ public class UserController {
         try {
             boolean success = userService.deleteUserByUsername(username);
             if (success) {
-                return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+                return new ResponseEntity<>(GlobalMessage.USER_DELETED_SUCCESSFULLY, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(GlobalMessage.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error del servidor");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 }

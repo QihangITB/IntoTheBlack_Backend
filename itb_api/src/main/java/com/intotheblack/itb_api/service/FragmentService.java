@@ -4,6 +4,7 @@ import com.intotheblack.itb_api.model.Fragment;
 import com.intotheblack.itb_api.dto.MessageRequestDTO;
 import com.intotheblack.itb_api.dto.FragmentRequestDTO;
 import com.intotheblack.itb_api.repository.FragmentRepository;
+import com.intotheblack.itb_api.util.GlobalMessage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,29 +22,29 @@ public class FragmentService {
     // METHODS:
     public Fragment findFragmentById(Integer id){
         if (id == null) {
-            throw new IllegalArgumentException("Id is required");
+            throw new IllegalArgumentException(GlobalMessage.ID_REQUIRED);
         }
         if (id < 0) {
-            throw new IllegalArgumentException("Id cannot be negative");
+            throw new IllegalArgumentException(GlobalMessage.ID_NEGATIVE);
         }
         return this.fragmentRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Fragment not found with id: " + id));
+            .orElseThrow(() -> new RuntimeException(GlobalMessage.FRAGMENT_NOT_FOUND + id));
     }
 
     public List<Fragment> findAllFragmentsInOrder(){
         return this.fragmentRepository.findAllOrderByOrderNumber()
-            .orElseThrow(() -> new RuntimeException("Fragment list is empty"));
+            .orElseThrow(() -> new RuntimeException(GlobalMessage.FRAGMENT_LIST_EMPTY));
     }
 
     public Fragment createFragment(FragmentRequestDTO request) {
         if (request == null) {
-            throw new IllegalArgumentException("Request cannot be null");
+            throw new IllegalArgumentException(GlobalMessage.REQUEST_NULL);
         }
         if (request.getOrderNumber() == null) {
-            throw new IllegalArgumentException("Order number is required");
+            throw new IllegalArgumentException(GlobalMessage.ORDER_NUMBER_REQUIRED);
         }
         if (request.getMessage() == null || request.getMessage().isEmpty()) {
-            throw new IllegalArgumentException("Message is required");
+            throw new IllegalArgumentException(GlobalMessage.MESSAGE_REQUIRED);
         }
     
         Fragment fragment = new Fragment();
@@ -55,16 +56,16 @@ public class FragmentService {
 
     public Fragment changeMessageById(Integer id, MessageRequestDTO request) {
         if (id == null) {
-            throw new IllegalArgumentException("Id is required");
+            throw new IllegalArgumentException(GlobalMessage.ID_REQUIRED);
         }
         if (id < 0) {
-            throw new IllegalArgumentException("Id cannot be negative");
+            throw new IllegalArgumentException(GlobalMessage.ID_NEGATIVE);
         }
         if (request == null) {
-            throw new IllegalArgumentException("Request cannot be null");
+            throw new IllegalArgumentException(GlobalMessage.REQUEST_NULL);
         }
         if (request.getMessage() == null || request.getMessage().isEmpty()) {
-            throw new IllegalArgumentException("Message is required");
+            throw new IllegalArgumentException(GlobalMessage.MESSAGE_REQUIRED);
         }
     
         Optional<Fragment> fragmentOptional = fragmentRepository.findById(id);
@@ -74,15 +75,15 @@ public class FragmentService {
             fragment.setMessage(request.getMessage());
             return fragmentRepository.save(fragment);
         }
-        throw new IllegalArgumentException("Fragment not found with id: " + id);
+        throw new IllegalArgumentException(GlobalMessage.FRAGMENT_NOT_FOUND + id);
     }
 
     public boolean deleteFragmentById(Integer id) {
         if (id == null) {
-            throw new IllegalArgumentException("Id is required");
+            throw new IllegalArgumentException(GlobalMessage.ID_REQUIRED);
         }
         if (id < 0) {
-            throw new IllegalArgumentException("Id cannot be negative");
+            throw new IllegalArgumentException(GlobalMessage.ID_NEGATIVE);
         }
     
         Optional<Fragment> fragmentOptional = fragmentRepository.findById(id);

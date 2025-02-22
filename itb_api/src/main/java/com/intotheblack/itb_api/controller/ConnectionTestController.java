@@ -1,6 +1,7 @@
 package com.intotheblack.itb_api.controller;
 
 import com.intotheblack.itb_api.service.ConnectionService;
+import com.intotheblack.itb_api.util.GlobalMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,9 +26,13 @@ public class ConnectionTestController {
         boolean isDbConnected = connectionService.isDatabaseConnected();
 
         if (isDbConnected) {
-            return new ResponseEntity<>("Database connection is successful.", HttpStatus.OK);
+            return new ResponseEntity<>(
+                GlobalMessage.DATABASE_CONNECTION_SUCCESSFUL, 
+                HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Failed to connect to the database.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                GlobalMessage.DATABASE_CONNECTION_FAILED, 
+                HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
