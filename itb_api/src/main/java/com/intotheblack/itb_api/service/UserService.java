@@ -1,9 +1,9 @@
 package com.intotheblack.itb_api.service;
 
 import com.intotheblack.itb_api.model.User;
+import com.intotheblack.itb_api.dto.LoginRequestDTO;
 import com.intotheblack.itb_api.dto.PasswordRequestDTO;
 import com.intotheblack.itb_api.dto.PlayersResponseDTO;
-import com.intotheblack.itb_api.dto.UserLoginDTO;
 import com.intotheblack.itb_api.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,14 +21,20 @@ public class UserService {
 
     // METHODS:
     public User findUserByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username is required");
+        }
         return userRepository.findByUsername(username)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con username: " + username));
+            .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
     }
 
     public PlayersResponseDTO findUserPlayersByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username is required");
+        }
         Optional<User> userOptional = userRepository.findByUsername(username);
 
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
             return new PlayersResponseDTO(user.getPlayers());
         }
@@ -36,6 +42,13 @@ public class UserService {
     }
 
     public boolean changePasswordWithUsername(String username, PasswordRequestDTO request) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username is required");
+        }
+        if (request == null || request.getOldPassword() == null || request.getNewPassword() == null) {
+            throw new IllegalArgumentException("Invalid password request");
+        }
+
         try {
             Optional<User> userOptional = userRepository.findByUsername(username);
     
@@ -64,7 +77,14 @@ public class UserService {
         }
     }
 
-    public boolean checkPasswordWithUsername(UserLoginDTO login) {
+    public boolean checkPasswordWithUsername(LoginRequestDTO login) {
+        if (login == null || 
+        login.getUsername() == null || login.getUsername().isEmpty() || 
+        login.getPassword() == null || login.getPassword().isEmpty()) {
+            
+            throw new IllegalArgumentException("Invalid login request");
+        }
+        
         try {
             Optional<User> userOptional = userRepository.findByUsername(login.getUsername());
     
@@ -85,6 +105,10 @@ public class UserService {
     }
 
     public boolean deleteUserByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username is required");
+        }
+        
         Optional<User> userOptional = userRepository.findByUsername(username);
     
         if (userOptional.isPresent()) {

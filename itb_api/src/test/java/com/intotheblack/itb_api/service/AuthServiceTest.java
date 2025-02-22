@@ -1,8 +1,8 @@
 package com.intotheblack.itb_api.service;
 
 import com.intotheblack.itb_api.dto.AuthResponseDTO;
-import com.intotheblack.itb_api.dto.UserLoginDTO;
-import com.intotheblack.itb_api.dto.UserRegisterDTO;
+import com.intotheblack.itb_api.dto.LoginRequestDTO;
+import com.intotheblack.itb_api.dto.RegisterRequestDTO;
 import com.intotheblack.itb_api.model.User;
 import com.intotheblack.itb_api.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +44,7 @@ class AuthServiceTest {
 
     @Test
     void testLogin_UsernameRequired() {
-        UserLoginDTO loginDTO = new UserLoginDTO();
+        LoginRequestDTO loginDTO = new LoginRequestDTO();
         loginDTO.setPassword("password");
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
@@ -56,7 +56,7 @@ class AuthServiceTest {
 
     @Test
     void testLogin_PasswordRequired() {
-        UserLoginDTO loginDTO = new UserLoginDTO();
+        LoginRequestDTO loginDTO = new LoginRequestDTO();
         loginDTO.setUsername("testuser");
 
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
@@ -68,7 +68,7 @@ class AuthServiceTest {
 
     @Test
     void testLogin_InvalidCredentials() {
-        UserLoginDTO loginDTO = new UserLoginDTO();
+        LoginRequestDTO loginDTO = new LoginRequestDTO();
         loginDTO.setUsername("testuser");
         loginDTO.setPassword("wrongpassword");
 
@@ -84,23 +84,23 @@ class AuthServiceTest {
 
     @Test
     void testLogin_UserNotFound() {
-        UserLoginDTO loginDTO = new UserLoginDTO();
+        LoginRequestDTO loginDTO = new LoginRequestDTO();
         loginDTO.setUsername("testuser");
         loginDTO.setPassword("password");
-
-        doNothing().when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+    
+        doAnswer(invocation -> null).when(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
-
+    
         ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
             authService.login(loginDTO);
         });
-
+    
         assertEquals("404 NOT_FOUND \"User not found\"", exception.getMessage());
     }
 
     @Test
     void testLogin_Success() {
-        UserLoginDTO loginDTO = new UserLoginDTO();
+        LoginRequestDTO loginDTO = new LoginRequestDTO();
         loginDTO.setUsername("testuser");
         loginDTO.setPassword("password");
 
@@ -119,7 +119,7 @@ class AuthServiceTest {
 
     @Test
     void testRegister_Success() {
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        RegisterRequestDTO registerDTO = new RegisterRequestDTO();
         registerDTO.setUsername("newuser");
         registerDTO.setPassword("password");
         registerDTO.setEmail("newuser@test.com");
@@ -139,7 +139,7 @@ class AuthServiceTest {
 
     @Test
     void testRegister_UsernameRequired() {
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        RegisterRequestDTO registerDTO = new RegisterRequestDTO();
         registerDTO.setPassword("password");
         registerDTO.setEmail("test@test.com");
 
@@ -153,7 +153,7 @@ class AuthServiceTest {
 
     @Test
     void testRegister_PasswordRequired() {
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        RegisterRequestDTO registerDTO = new RegisterRequestDTO();
         registerDTO.setUsername("newuser");
         registerDTO.setEmail("test@test.com");
 
@@ -167,7 +167,7 @@ class AuthServiceTest {
 
     @Test
     void testRegister_EmailRequired() {
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        RegisterRequestDTO registerDTO = new RegisterRequestDTO();
         registerDTO.setUsername("newuser");
         registerDTO.setPassword("password");
 
@@ -181,7 +181,7 @@ class AuthServiceTest {
 
     @Test
     void testRegister_InvalidEmail() {
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        RegisterRequestDTO registerDTO = new RegisterRequestDTO();
         registerDTO.setUsername("newuser");
         registerDTO.setPassword("password");
         registerDTO.setEmail("invalidemail");
@@ -196,7 +196,7 @@ class AuthServiceTest {
 
     @Test
     void testRegister_UsernameTaken() {
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        RegisterRequestDTO registerDTO = new RegisterRequestDTO();
         registerDTO.setUsername("existinguser");
         registerDTO.setPassword("password");
         registerDTO.setEmail("newuser@test.com");
@@ -212,7 +212,7 @@ class AuthServiceTest {
 
     @Test
     void testRegister_EmailInUse() {
-        UserRegisterDTO registerDTO = new UserRegisterDTO();
+        RegisterRequestDTO registerDTO = new RegisterRequestDTO();
         registerDTO.setUsername("newuser");
         registerDTO.setPassword("password");
         registerDTO.setEmail("existingemail@test.com");

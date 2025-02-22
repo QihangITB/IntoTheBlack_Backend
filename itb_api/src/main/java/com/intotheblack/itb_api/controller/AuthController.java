@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
 
 import com.intotheblack.itb_api.dto.AuthResponseDTO;
-import com.intotheblack.itb_api.dto.UserLoginDTO;
-import com.intotheblack.itb_api.dto.UserRegisterDTO;
+import com.intotheblack.itb_api.dto.LoginRequestDTO;
+import com.intotheblack.itb_api.dto.RegisterRequestDTO;
 import com.intotheblack.itb_api.service.AuthService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +26,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UserLoginDTO request) {
+    public ResponseEntity<Object> login(@RequestBody LoginRequestDTO request) {
         try {
             AuthResponseDTO response = authService.login(request);
             return ResponseEntity.ok(response);
@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody UserRegisterDTO request) {
+    public ResponseEntity<Object> register(@RequestBody RegisterRequestDTO request) {
         try {
             AuthResponseDTO response = authService.register(request);
             return new ResponseEntity<>(response, HttpStatus.CREATED);

@@ -1,8 +1,9 @@
 package com.intotheblack.itb_api.service;
 
 import com.intotheblack.itb_api.dto.AuthResponseDTO;
-import com.intotheblack.itb_api.dto.UserLoginDTO;
-import com.intotheblack.itb_api.dto.UserRegisterDTO;
+import com.intotheblack.itb_api.dto.LoginRequestDTO;
+import com.intotheblack.itb_api.dto.RegisterRequestDTO;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,7 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponseDTO login(UserLoginDTO request) {
+    public AuthResponseDTO login(LoginRequestDTO request) {
         if (request.getUsername() == null || request.getUsername().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is required");
         }
@@ -50,7 +51,7 @@ public class AuthService {
         return new AuthResponseDTO(token, user);
     }
 
-    public AuthResponseDTO register(UserRegisterDTO request) {
+    public AuthResponseDTO register(RegisterRequestDTO request) {
         if (request.getUsername() == null || request.getUsername().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username is required");
         }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.intotheblack.itb_api.repository.UserRepository;
 
 @Service
-public class ConnectionTestService {
+public class ConnectionService {
     @Autowired
     private UserRepository userRepository;
 
