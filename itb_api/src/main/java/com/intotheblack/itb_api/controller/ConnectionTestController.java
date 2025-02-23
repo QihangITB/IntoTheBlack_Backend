@@ -1,6 +1,7 @@
 package com.intotheblack.itb_api.controller;
 
-import com.intotheblack.itb_api.service.ConnectionTestService;
+import com.intotheblack.itb_api.service.ConnectionService;
+import com.intotheblack.itb_api.util.GlobalMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,17 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Connection-test")
 public class ConnectionTestController {
     @Autowired
-    private ConnectionTestService conectionTestService;
+    private ConnectionService connectionService;
 
     @Operation(summary = "Comprobar la conexión a la base de datos")
     @GetMapping("/db-connection")
     public ResponseEntity<String> checkDatabaseConnection() {
-        boolean isDbConnected = conectionTestService.isDatabaseConnected();
+        boolean isDbConnected = connectionService.isDatabaseConnected();
 
         if (isDbConnected) {
-            return new ResponseEntity<>("Database connection is successful.", HttpStatus.OK);
+            return new ResponseEntity<>(
+                GlobalMessage.DATABASE_CONNECTION_SUCCESSFUL, 
+                HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Failed to connect to the database.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(
+                GlobalMessage.DATABASE_CONNECTION_FAILED, 
+                HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

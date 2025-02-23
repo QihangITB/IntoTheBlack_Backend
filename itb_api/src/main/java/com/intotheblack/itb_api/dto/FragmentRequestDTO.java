@@ -1,6 +1,6 @@
 package com.intotheblack.itb_api.dto;
 
-public class FragmentDTO {
+public class FragmentRequestDTO {
 
     private Integer orderNumber;
     private String message;

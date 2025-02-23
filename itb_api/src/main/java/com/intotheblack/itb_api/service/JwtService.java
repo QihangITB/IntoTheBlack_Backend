@@ -25,10 +25,11 @@ public class JwtService {
     private String getToken(Map<String,Object> extraClaims, UserDetails user) {
         return Jwts
         .builder()
-        .setClaims(extraClaims)
-        .setSubject(user.getUsername())
-        .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
+        .header().add("typ", "JWT").and()
+        .claims(extraClaims)
+        .subject(user.getUsername())
+        .issuedAt(new Date(System.currentTimeMillis()))
+        .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10)) // 10 min
         .signWith(getKey(), SignatureAlgorithm.HS256)
         .compact();
     }

@@ -1,12 +1,18 @@
 package com.intotheblack.itb_api.dto;
 
-public class UserRegisterDTO {
+public class LoginRequestDTO {
 
     private String username;
-
     private String password;
-    
-    private String email;
+
+    // Concsutructor
+    public LoginRequestDTO() {
+    }
+
+    public LoginRequestDTO(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     // Getters y Setters
     public String getUsername() {
@@ -23,13 +29,5 @@ public class UserRegisterDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

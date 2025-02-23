@@ -1,11 +1,11 @@
 package com.intotheblack.itb_api.service;
 
 import com.intotheblack.itb_api.model.User;
+import com.intotheblack.itb_api.dto.LoginRequestDTO;
 import com.intotheblack.itb_api.dto.PasswordRequestDTO;
 import com.intotheblack.itb_api.dto.PlayersResponseDTO;
-import com.intotheblack.itb_api.dto.UserRegisterDTO;
-import com.intotheblack.itb_api.dto.UserLoginDTO;
 import com.intotheblack.itb_api.repository.UserRepository;
+import com.intotheblack.itb_api.util.GlobalMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -16,36 +16,41 @@ public class UserService {
     private final UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
     }
 
     // METHODS:
     public User findUserByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException(GlobalMessage.USERNAME_REQUIRED);
+        }
         return userRepository.findByUsername(username)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con username: " + username));
+            .orElseThrow(() -> new RuntimeException(GlobalMessage.USER_NOT_FOUND + username));
     }
 
-    public PlayersResponseDTO findPlayersByUsername(String username) {
+    public PlayersResponseDTO findUserPlayersByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException(GlobalMessage.USERNAME_REQUIRED);
+        }
         Optional<User> userOptional = userRepository.findByUsername(username);
 
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             User user = userOptional.get();
             return new PlayersResponseDTO(user.getPlayers());
         }
         return new PlayersResponseDTO();
     }
 
-    public User registerUser(UserRegisterDTO request) {
-        User user = new User();
-        user.setUsername(request.getUsername());        
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setEmail(request.getEmail());
-
-        return userRepository.save(user);
-    }
-
     public boolean changePasswordWithUsername(String username, PasswordRequestDTO request) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException(GlobalMessage.USERNAME_REQUIRED);
+        }
+        if (request == null || request.getOldPassword() == null || request.getNewPassword() == null) {
+            throw new IllegalArgumentException(GlobalMessage.INVALID_PASSWORD_REQUEST);
+        }
+
         try {
             Optional<User> userOptional = userRepository.findByUsername(username);
     
@@ -74,7 +79,14 @@ public class UserService {
         }
     }
 
-    public boolean checkPasswordWithUsername(UserLoginDTO login) {
+    public boolean checkPasswordWithUsername(LoginRequestDTO login) {
+        if (login == null || 
+        login.getUsername() == null || login.getUsername().isEmpty() || 
+        login.getPassword() == null || login.getPassword().isEmpty()) {
+            
+            throw new IllegalArgumentException(GlobalMessage.INVALID_LOGIN_REQUEST);
+        }
+        
         try {
             Optional<User> userOptional = userRepository.findByUsername(login.getUsername());
     
@@ -95,6 +107,10 @@ public class UserService {
     }
 
     public boolean deleteUserByUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException(GlobalMessage.USERNAME_REQUIRED);
+        }
+        
         Optional<User> userOptional = userRepository.findByUsername(username);
     
         if (userOptional.isPresent()) {

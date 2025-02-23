@@ -1,11 +1,11 @@
 package com.intotheblack.itb_api.controller;
 
 import com.intotheblack.itb_api.model.User;
-import com.intotheblack.itb_api.dto.UserRegisterDTO;
-import com.intotheblack.itb_api.dto.UserLoginDTO;
+import com.intotheblack.itb_api.dto.LoginRequestDTO;
 import com.intotheblack.itb_api.dto.PasswordRequestDTO;
 import com.intotheblack.itb_api.dto.PlayersResponseDTO;
 import com.intotheblack.itb_api.service.UserService;
+import com.intotheblack.itb_api.util.GlobalMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,31 +26,48 @@ public class UserController {
 
     @Operation(summary = "Obtener usuario a través del nombre")
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(userService.findUserByUsername(username));
+    public ResponseEntity<Object> getUserByUsername(@PathVariable String username) {
+        try {
+            User user = userService.findUserByUsername(username);
+            return ResponseEntity.ok(user);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
+        }
     }
 
     @Operation(summary = "Obtener jugadores de un usuario a través del nombre")
     @GetMapping("/{username}/players")
-    public ResponseEntity<PlayersResponseDTO> getPlayersByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(userService.findPlayersByUsername(username));
-    }
-
-    @Operation(summary = "Registrar un nuevo usuario")
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody UserRegisterDTO user) {
-        User newUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    public ResponseEntity<Object> getPlayersByUsername(@PathVariable String username) {
+        try {
+            PlayersResponseDTO players = userService.findUserPlayersByUsername(username);
+            return ResponseEntity.ok(players);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
+        }
     }
     
-    @Operation(summary = "Iniciar sessión con un usuario")
-    @PostMapping("/login")
-    public ResponseEntity<String> checkPassword(@RequestBody UserLoginDTO login) {
-        boolean success = userService.checkPasswordWithUsername(login);
-        if (success) {
-            return new ResponseEntity<>("Sessión iniciada correctamente.", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Error al iniciar sessión.", HttpStatus.BAD_REQUEST);
+    @Operation(summary = "Verificar la contraseña de un usuario")
+    @PostMapping("/password/check")
+    public ResponseEntity<String> checkPassword(@RequestBody LoginRequestDTO login) {
+        try {
+            boolean success = userService.checkPasswordWithUsername(login);
+            if (success) {
+                return ResponseEntity.ok(GlobalMessage.CORRECT_PASSWORD);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(GlobalMessage.INCORRECT_PASSWORD);
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 
@@ -59,22 +76,34 @@ public class UserController {
     public ResponseEntity<String> changePassword(
             @PathVariable String username, 
             @RequestBody PasswordRequestDTO passwordRequest) {
-        boolean success = userService.changePasswordWithUsername(username, passwordRequest);
-        if (success) {
-            return new ResponseEntity<>("Contraseña cambiada correctamente", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Error al cambiar la contraseña", HttpStatus.BAD_REQUEST);
+        try {
+            boolean success = userService.changePasswordWithUsername(username, passwordRequest);
+            if (success) {
+                return new ResponseEntity<>(GlobalMessage.PASSWORD_CHANGED_SUCCESSFULLY, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(GlobalMessage.PASSWORD_CHANGE_FAILED, HttpStatus.BAD_REQUEST);
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 
     @Operation(summary = "Eliminar un usuario a través del nombre")
     @DeleteMapping("/{username}")
     public ResponseEntity<String> deleteUserByName(@PathVariable String username) {
-        boolean success = userService.deleteUserByUsername(username);
-        if (success) {
-            return new ResponseEntity<>("Usuario eliminado correctamente", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
+        try {
+            boolean success = userService.deleteUserByUsername(username);
+            if (success) {
+                return new ResponseEntity<>(GlobalMessage.USER_DELETED_SUCCESSFULLY, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(GlobalMessage.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GlobalMessage.SERVER_ERROR);
         }
     }
 }
