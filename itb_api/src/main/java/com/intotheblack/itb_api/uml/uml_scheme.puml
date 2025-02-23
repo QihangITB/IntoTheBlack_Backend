@@ -1,0 +1,178 @@
+@startuml itb_api_diagram
+top to bottom direction
+
+package itb_api.model {
+    class User {
+        Integer id
+        String username
+        String password
+        String email
+        List<Player> players
+        + getId(): Integer
+        + setId(Integer): void
+        + getUsername(): String
+        + setUsername(String): void
+        + getPassword(): String
+        + setPassword(String): void
+        + getEmail(): String
+        + setEmail(String): void
+        + getPlayers(): List<Player>
+        + setPlayers(List<Player>): void
+    }
+
+    class Player {
+        Integer id
+        String recordTime
+        List<Fragment> fragmentList
+        User user
+        + getId(): Integer
+        + setId(Integer): void
+        + getRecordTime(): String
+        + setRecordTime(String): void
+        + getFragmentList(): List<Fragment>
+        + setFragmentList(List<Fragment>): void
+        + getUser(): User
+        + setUser(User): void
+    }
+
+    class Fragment {
+        Integer id
+        Integer orderNumber
+        String message
+        + getId(): Integer
+        + setId(Integer): void
+        + getOrderNumber(): Integer
+        + setOrderNumber(Integer): void
+        + getMessage(): String
+        + setMessage(String): void
+    }
+}
+
+package itb_api.repository {
+    interface UserRepository {
+        + findByUsername(String): Optional<User>
+        + findByEmail(String): Optional<User>
+    }
+
+    interface PlayerRepository {
+    }
+
+    interface FragmentRepository {
+        + findAllOrderByOrderNumber(): Optional<List<Fragment>>
+    }
+}
+
+package itb_api.service {
+    class UserService {
+        UserRepository userRepository
+        PasswordEncoder passwordEncoder
+        + findUserByUsername(String): User
+        + findUserPlayersByUsername(String): PlayersResponseDTO
+        + changePasswordWithUsername(String, PasswordRequestDTO): boolean
+        + checkPasswordWithUsername(LoginRequestDTO): boolean
+        + deleteUserByUsername(String): boolean
+    }
+
+    class PlayerService {
+        PlayerRepository playerRepository
+        UserService userService
+        FragmentService fragmentService
+        + findPlayerById(Integer): Player
+        + createPlayer(String): Player
+        + resetPlayerDataById(Integer): boolean
+        + changeRecordTimeById(Integer, String): Player
+        + addFragmentToListById(Integer, Integer): Player
+        + deletePlayerById(Integer): boolean
+    }
+
+    class FragmentService {
+        FragmentRepository fragmentRepository
+        + findFragmentById(Integer): Fragment
+        + findAllFragmentsInOrder(): List<Fragment>
+        + createFragment(FragmentRequestDTO): Fragment
+        + changeMessageById(Integer, MessageRequestDTO): Fragment
+        + deleteFragmentById(Integer): boolean
+    }
+
+    class JwtService {
+        + getToken(UserDetails): String
+        + getUsernameFromToken(String): String
+        + isTokenValid(String, UserDetails): boolean
+    }
+
+    class AuthService {
+        UserRepository userRepository
+        JwtService jwtService
+        PasswordEncoder passwordEncoder
+        AuthenticationManager authenticationManager
+        + login(LoginRequestDTO): AuthResponseDTO
+        + register(RegisterRequestDTO): AuthResponseDTO
+    }
+
+    class ConnectionService {
+        UserRepository userRepository
+        + isDatabaseConnected(): boolean
+    }
+}
+
+package itb_api.controller {
+    class UserController {
+        UserService userService
+        + getUserByUsername(String): ResponseEntity<Object>
+        + getPlayersByUsername(String): ResponseEntity<Object>
+        + checkPassword(LoginRequestDTO): ResponseEntity<String>
+        + changePassword(String, PasswordRequestDTO): ResponseEntity<String>
+        + deleteUserByName(String): ResponseEntity<String>
+    }
+
+    class PlayerController {
+        PlayerService playerService
+        + getPlayerById(Integer): ResponseEntity<Object>
+        + createNewPlayer(String): ResponseEntity<Object>
+        + resetPlayerDataById(Integer): ResponseEntity<String>
+        + updateTimeById(Integer, String): ResponseEntity<Object>
+        + addFragmentToPlayerById(Integer, Integer): ResponseEntity<Object>
+        + deletePlayerById(Integer): ResponseEntity<String>
+    }
+
+    class FragmentController {
+        FragmentService fragmentService
+        + getFragmentById(Integer): ResponseEntity<Object>
+        + getAllFragmentsInOrder(): ResponseEntity<Object>
+        + createNewFragment(FragmentRequestDTO): ResponseEntity<Object>
+        + updateMessageById(Integer, MessageRequestDTO): ResponseEntity<Object>
+        + deleteFragmentById(Integer): ResponseEntity<String>
+    }
+
+    class ConnectionTestController {
+        ConnectionService connectionService
+        + checkDatabaseConnection(): ResponseEntity<String>
+    }
+
+    class AuthController {
+        AuthService authService
+        + login(LoginRequestDTO): ResponseEntity<Object>
+        + register(RegisterRequestDTO): ResponseEntity<Object>
+    }
+}
+
+User --> UserRepository
+Player --> PlayerRepository
+Fragment --> FragmentRepository
+User --> Player
+Player --> Fragment
+UserService --> UserRepository
+PlayerService --> PlayerRepository
+PlayerService --> UserService
+PlayerService --> FragmentService
+FragmentService --> FragmentRepository
+AuthService --> UserRepository
+AuthService --> JwtService
+ConnectionService --> UserRepository
+UserController --> UserService
+PlayerController --> PlayerService
+FragmentController --> FragmentService
+ConnectionTestController --> ConnectionService
+AuthController --> AuthService
+
+@enduml
