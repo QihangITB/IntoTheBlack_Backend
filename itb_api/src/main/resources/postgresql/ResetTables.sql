@@ -23,7 +23,7 @@ CREATE TABLE player (
 -- Crear la tabla de fragmentos
 CREATE TABLE fragment (
     fragment_id SERIAL PRIMARY KEY,
-    order_number INT NOT NULL,
+    order_number INT NOT NULL UNIQUE,
     message TEXT NOT NULL
 );
 

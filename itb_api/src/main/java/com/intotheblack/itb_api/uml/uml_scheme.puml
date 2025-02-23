@@ -1,5 +1,5 @@
 @startuml itb_api_diagram
-top to bottom direction
+left to right direction
 
 package itb_api.model {
     class User {

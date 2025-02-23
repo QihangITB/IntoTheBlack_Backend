@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @Tag(name = "Authentication", description = "Endpoints para registrar y loguear usuarios")
 @RequiredArgsConstructor
 public class AuthController {
