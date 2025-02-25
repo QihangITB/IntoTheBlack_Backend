@@ -14,6 +14,7 @@ http://localhost:8080/swagger-ui/index.html
 
 ## Enlace cloud:
 Tener en cuenta que se utiliza el plan gratuito, por lo tanto el tiempo de espera de la primera petición puede tardar bastante.
+
 [http://localhost:8080/swagger-ui/index.html](https://intotheblack-api.onrender.com/swagger-ui/index.html)
 
 ## Validador de codigo: Extension VS Code (SonarQube)
